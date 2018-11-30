@@ -1,2 +1,16 @@
 
 README copy 2.md
+Stanfordcs231n/cs231n/__init__.py
+Stanfordcs231n/cs231n/__pycache__/__init__.cpython-36.pyc
+Stanfordcs231n/cs231n/__pycache__/data_utils.cpython-36.pyc
+Stanfordcs231n/cs231n/classifiers/__init__.py
+Stanfordcs231n/cs231n/classifiers/k_nearest_neighbor.py
+Stanfordcs231n/cs231n/classifiers/linear_classifier.py
+Stanfordcs231n/cs231n/classifiers/linear_svm.py
+Stanfordcs231n/cs231n/classifiers/neural_net.py
+Stanfordcs231n/cs231n/classifiers/softmax.py
+Stanfordcs231n/cs231n/data_utils.py
+Stanfordcs231n/cs231n/datasets/get_datasets.sh
+Stanfordcs231n/cs231n/features.py
+Stanfordcs231n/cs231n/gradient_check.py
+Stanfordcs231n/cs231n/vis_utils.py

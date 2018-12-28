@@ -1,7 +1,13 @@
 pass
-from cs231n.layers import *
-from cs231n.fast_layers import *
+import import_ipynb
+import layers
+from layers import *
 
+import sys
+sys.path.insert(0, '/Documents/GitHub/machinelearningbasics/Stanfordcs231n')
+from cs231n.fast_layers import *
+from cs231n.im2col_cython import col2im_cython, im2col_cython
+from cs231n.im2col_cython import col2im_6d_cython
 
 def affine_relu_forward(x, w, b):
     """

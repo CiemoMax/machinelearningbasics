@@ -2,6 +2,10 @@ import numpy as np
 cimport numpy as np
 cimport cython
 
+##-----added by maxx starts----##
+# %%cython
+##-----added by maxx ends----##
+
 # DTYPE = np.float64
 # ctypedef np.float64_t DTYPE_t
 

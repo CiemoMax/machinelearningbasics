@@ -8,8 +8,14 @@ except ImportError:
     print('python setup.py build_ext --inplace')
     print('You may also need to restart your iPython kernel')
 
+import sys
+sys.path.insert(0, '/Documents/GitHub/machinelearningbasics/Stanfordcs231n/cs231n')
 from cs231n.im2col import *
 
+##---------added by Maxx starts ---------------##
+from cs231n.im2col_cython import col2im_cython, im2col_cython
+from cs231n.im2col_cython import col2im_6d_cython
+##---------added by Maxx ends ---------------##
 
 def conv_forward_im2col(x, w, b, conv_param):
     """

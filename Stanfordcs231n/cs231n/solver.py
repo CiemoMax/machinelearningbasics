@@ -181,6 +181,7 @@ class Solver(object):
         # Compute loss and gradient
         loss, grads = self.model.loss(X_batch, y_batch)
         self.loss_history.append(loss)
+        print('loss in _step:',loss )
 
         # Perform a parameter update
         for p, w in self.model.params.items():
@@ -229,6 +230,8 @@ class Solver(object):
         - acc: Scalar giving the fraction of instances that were correctly
           classified by the model.
         """
+        
+#         print('model is ', self.model)
 
         # Maybe subsample the data
         N = X.shape[0]
@@ -246,6 +249,7 @@ class Solver(object):
         for i in range(num_batches):
             start = i * batch_size
             end = (i + 1) * batch_size
+            print('X shape for accuracy:', X[start:end].shape)
             scores = self.model.loss(X[start:end])
             y_pred.append(np.argmax(scores, axis=1))
         y_pred = np.hstack(y_pred)
@@ -263,6 +267,7 @@ class Solver(object):
         num_iterations = self.num_epochs * iterations_per_epoch
 
         for t in range(num_iterations):
+            print('t:',t,'num_iterations:', num_iterations)
             self._step()
 
             # Maybe print training loss
@@ -283,6 +288,7 @@ class Solver(object):
             first_it = (t == 0)
             last_it = (t == num_iterations - 1)
             if first_it or last_it or epoch_end:
+                # lines got issues.
                 train_acc = self.check_accuracy(self.X_train, self.y_train,
                     num_samples=self.num_train_samples)
                 val_acc = self.check_accuracy(self.X_val, self.y_val,
@@ -301,6 +307,8 @@ class Solver(object):
                     self.best_params = {}
                     for k, v in self.model.params.items():
                         self.best_params[k] = v.copy()
-
+            ##-------------------added by maxx ---------------------##
+            print('W1 after 1 iteration:',self.best_params.W1)
+            ##-------------------added by maxx ---------------------##
         # At the end of training swap the best params into the model
         self.model.params = self.best_params

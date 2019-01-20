@@ -845,8 +845,8 @@ def spatial_groupnorm_forward(x, gamma, beta, G, gn_param):
     
     norm = np.reshape(norm, (N, C, H, W))
 #     Ref: https://github.com/haofeixu/standford-cs231n-2018/blob/master/assignment2/cs231n/layers.py
-    out = gamma[np.newaxis, :, np.newaxis, np.newaxis] * norm +            beta[np.newaxis, :, np.newaxis, np.newaxis]
-    cache = (x, norm, mean_sg, var_sg, std_inv_sg, G, gamma, beta, eps)
+    out = gamma * norm + beta
+    cache = (norm, std_inv_sg, G, gamma)
     
     ##------------------------ written by me end ----------------------------##
     return out, cache
@@ -872,24 +872,25 @@ def spatial_groupnorm_backward(dout, cache):
     ###########################################################################
     ##------------------------ written by me start --------------------------##
     
-    x, norm, mean_sg, var_sg, std_inv_sg, G, gamma, beta, eps = cache
-    N, C, H, W = x.shape
+    N, C, H, W = dout.shape 
+    norm, std_inv_sg, G, gamma = cache
+
+    dgamma = np.sum(dout * norm, axis = (0,2,3), keepdims = True).reshape(1,C,1,1)
+    dbeta = np.sum(dout, axis = (0,2,3), keepdims = True).reshape(1,C,1,1)
     
-    dgamma = np.sum(dout * norm, axis = (0,2,3), keepdims = True)
-    dbeta = np.sum(dout, axis = (0,2,3), keepdims = True)
-    
-    dnorm = (dout * gamma[np.newaxis, :, np.newaxis,                          np.newaxis]).reshape(dnorm,(N*G, (C//G)*H*W)).T
-    norm = np.reshape(norm, (N*G, (C//G)*H*W)).T
-    
-    D = (C//G)*H*W
-    dx = 1/D * std_inv * ((D * dnorm -                            np.sum(dnorm, axis = 0)) -                           np.sum(dnorm * norm, axis = 0) * norm)
+    D = (C//G)*H*W    
+    dnorm = dout * gamma
+    dnorm = np.reshape(dnorm, (N*G, D)).T
+    norm = np.reshape(norm, (N*G, D)).T
+
+    dx = 1/D * std_inv_sg * ((D * dnorm - \
+                           np.sum(dnorm, axis = 0)) - \
+                           np.sum(dnorm * norm, axis = 0) * norm)
     dx = np.reshape(dx.T, (N,C,H,W))
     
     ##------------------------ written by me end ----------------------------##
     return dx, dgamma, dbeta
 
-
-# In[ ]:
 
 
 def svm_loss(x, y):
